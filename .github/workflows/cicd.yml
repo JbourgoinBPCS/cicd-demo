@@ -1,0 +1,25 @@
+name: Promote to QA
+
+on:
+  push:
+    branches:
+      - dev_release
+
+jobs:
+  promote_to_qa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create QA branch
+        run: git checkout -b qa_release
+
+      - name: Push changes to QA branch
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Promoting changes from dev_release to qa_release"
+          git push origin qa_release
